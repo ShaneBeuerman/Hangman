@@ -1,7 +1,20 @@
 #Hangman
+import tkinter
 
-def printBlanks():
-    print("To be continued")
+def GUI():
+    global blanks
+    Game = tkinter.Tk()
+    blank = tkinter.Label(text=blanks)
+    prompt = tkinter.Label(text="What letter would you like to pick?")
+    guess = tkinter.Entry()
+    submit = tkinter.Button(text="Submit")
+    blank.pack()
+    prompt.pack()
+    guess.pack()
+    submit.pack()
+    Game.mainloop()
+
+
 
 test = "Hello World"
 strikes = 0
@@ -13,6 +26,7 @@ for i in test:
         blanks.append("_")
 
 print(blanks)
+GUI()
 while strikes < 5 and "_" in blanks:
     letter = input("What letter would you like to pick?")
     if letter not in test:
