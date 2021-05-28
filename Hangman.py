@@ -11,9 +11,52 @@ def updateGUI(letter):
             if test[i] == letter:
                 blanks[i] = letter
         blank.config(text=blanks)
+        if "_" not in blanks:
+            winPopup()
     else:
         strikes += 1
         print("You have", strikes, "strikes")
+        drawGallows()
+
+def drawGallows():
+    global gallows
+    global strikes
+    if strikes == 1:
+        gallows.create_oval(40,30,70,60)
+    if strikes == 2:
+        print("Body")
+        #Create Body
+    if strikes == 3:
+        print("Left Arm")
+        #Left Arm
+    if strikes == 4:
+        print("Right Arm")
+        #Right Arm
+    if strikes == 5:
+        print("Left Leg")
+        #Left Leg
+    if strikes == 6:
+        print("Right Leg")
+        #Right Leg
+        losePopup()
+
+def winPopup():
+    win = tkinter.Tk()
+    win.wm_title("You win.")
+    winLabel = tkinter.Label(win, text="You have won!")
+    winButton = tkinter.Button(win, text="Okay", command = win.destroy)
+    winLabel.pack()
+    winButton.pack()
+    win.mainloop()
+
+def losePopup():
+    lose = tkinter.Tk()
+    lose.wm_title("You lose.")
+    loseLabel = tkinter.Label(lose, text="You have lost!")
+    loseButton = tkinter.Button(lose, text="Okay", command = lose.destroy)
+    loseLabel.pack()
+    loseButton.pack()
+    lose.mainloop()
         
 def errorPopup():
     error = tkinter.Tk()
@@ -50,6 +93,10 @@ prompt = tkinter.Label(text="What letter would you like to pick?")
 guess = tkinter.Entry()
 submit = tkinter.Button(text="Submit", command=submit)
 gallows = tkinter.Canvas(Game, width=100, height=100)
+gallows.create_line(0, 100, 100, 100)
+gallows.create_line(25, 100, 25, 25)
+gallows.create_line(25, 25, 50, 25)
+gallows.create_line(50, 25, 50, 40)
 blank.pack()
 prompt.pack()
 guess.pack()
