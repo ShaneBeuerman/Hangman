@@ -6,9 +6,9 @@ def updateGUI(letter):
     global blank
     global test
     global strikes
-    if letter in test:
+    if letter.lower() in test.lower():
         for i in range(len(test)):
-            if test[i] == letter:
+            if test[i].lower() == letter.lower():
                 blanks[i] = letter
         blank.config(text=blanks)
         if "_" not in blanks:
@@ -47,22 +47,17 @@ def drawGallows():
         gallows.create_oval(40,40,60,60)
         #30, 40, 70, 60
     if strikes == 2:
-        print("Body")
         gallows.create_line(50, 60, 50, 80)
     if strikes == 3:
-        print("Left Arm")
         gallows.create_line(50, 70, 40, 60)
         #Left Arm
     if strikes == 4:
-        print("Right Arm")
         gallows.create_line(60, 60, 50, 70)
         #Right Arm
     if strikes == 5:
-        print("Left Leg")
         gallows.create_line(50, 80, 40, 90)
         #Left Leg
     if strikes == 6:
-        print("Right Leg")
         #Right Leg
         gallows.create_line(50, 80, 60, 90)
         losePopup()
@@ -109,11 +104,11 @@ strikes = 0
 blanks = []
 for i in test:
     if i == " ":
-        blanks.append(" ")
+        blanks.append("")
     else:
         blanks.append("_")
-
 print(blanks)
+
 Game = tkinter.Tk()
 blank = tkinter.Label(text=blanks)
 prompt = tkinter.Label(text="What letter would you like to pick?")
