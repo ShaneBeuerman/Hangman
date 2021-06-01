@@ -18,26 +18,53 @@ def updateGUI(letter):
         print("You have", strikes, "strikes")
         drawGallows()
 
+def text_based_hangman():
+    global strikes
+    global test
+    global blanks
+    while strikes < 5 and "_" in blanks:
+        letter = input("What letter would you like to pick?")
+        if letter == 'quit':
+            break
+        if letter not in test:
+            strikes += 1
+            print("You have", strikes)
+        else:
+            for i in range(len(test)):
+                if test[i] == letter:
+                    blanks[i] = letter
+        print(blanks)
+
+    if strikes < 5:
+        print("You win")
+    else:
+        print("You lose")
+
 def drawGallows():
     global gallows
     global strikes
     if strikes == 1:
-        gallows.create_oval(40,30,70,60)
+        gallows.create_oval(40,40,60,60)
+        #30, 40, 70, 60
     if strikes == 2:
         print("Body")
-        #Create Body
+        gallows.create_line(50, 60, 50, 80)
     if strikes == 3:
         print("Left Arm")
+        gallows.create_line(50, 70, 40, 60)
         #Left Arm
     if strikes == 4:
         print("Right Arm")
+        gallows.create_line(60, 60, 50, 70)
         #Right Arm
     if strikes == 5:
         print("Left Leg")
+        gallows.create_line(50, 80, 40, 90)
         #Left Leg
     if strikes == 6:
         print("Right Leg")
         #Right Leg
+        gallows.create_line(50, 80, 60, 90)
         losePopup()
 
 def winPopup():
@@ -103,20 +130,3 @@ guess.pack()
 submit.pack()
 gallows.pack()
 Game.mainloop()
-while strikes < 5 and "_" in blanks:
-    letter = input("What letter would you like to pick?")
-    if letter == 'quit':
-        break
-    if letter not in test:
-        strikes += 1
-        print("You have", strikes)
-    else:
-        for i in range(len(test)):
-            if test[i] == letter:
-                blanks[i] = letter
-    print(blanks)
-
-if strikes < 5:
-    print("You win")
-else:
-    print("You lose")
