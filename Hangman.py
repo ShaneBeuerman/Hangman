@@ -1,14 +1,14 @@
 #Hangman
-import tkinter
+import tkinter 
 
 def updateGUI(letter):
     global blanks
     global blank
-    global test
+    global puzzle
     global strikes
-    if letter.lower() in test.lower():
-        for i in range(len(test)):
-            if test[i].lower() == letter.lower():
+    if letter.lower() in puzzle.lower():
+        for i in range(len(puzzle)):
+            if puzzle[i].lower() == letter.lower():
                 blanks[i] = letter
         blank.config(text=blanks)
         if "_" not in blanks:
@@ -20,18 +20,18 @@ def updateGUI(letter):
 
 def text_based_hangman():
     global strikes
-    global test
+    global puzzle
     global blanks
     while strikes < 5 and "_" in blanks:
         letter = input("What letter would you like to pick?")
         if letter == 'quit':
             break
-        if letter not in test:
+        if letter not in puzzle:
             strikes += 1
             print("You have", strikes)
         else:
-            for i in range(len(test)):
-                if test[i] == letter:
+            for i in range(len(puzzle)):
+                if puzzle[i] == letter:
                     blanks[i] = letter
         print(blanks)
 
@@ -45,9 +45,10 @@ def drawGallows():
     global strikes
     if strikes == 1:
         gallows.create_oval(40,40,60,60)
-        #30, 40, 70, 60
+        #Head
     if strikes == 2:
         gallows.create_line(50, 60, 50, 80)
+        #Body
     if strikes == 3:
         gallows.create_line(50, 70, 40, 60)
         #Left Arm
@@ -98,16 +99,36 @@ def submit():
         return
     updateGUI(letter)
     print(letter)
-    
-test = "Hello World"
+
+def inputHangman():
+    global puzzle
+    global hangman
+    global Prompt
+    puzzle_input = str(hangman.get())
+    for i in puzzle_input:
+        puzzle += i
+    Prompt.destroy()
+
+puzzle = ""
+
+Prompt = tkinter.Tk()
+label = tkinter.Label(text="Please type out your hangman Puzzle.")
+hangman = tkinter.Entry()
+submit1 = tkinter.Button(text="Confirm", command = inputHangman)
+label.pack()
+hangman.pack()
+submit1.pack()
+Prompt.mainloop() 
+
 strikes = 0
 blanks = []
-for i in test:
+for i in puzzle:
     if i == " ":
         blanks.append("")
     else:
         blanks.append("_")
 print(blanks)
+print(puzzle)
 
 Game = tkinter.Tk()
 blank = tkinter.Label(text=blanks)
