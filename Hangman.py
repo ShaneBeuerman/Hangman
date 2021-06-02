@@ -1,31 +1,31 @@
 #Hangman
 import tkinter 
 
+#Udates the GUI after a new letter has been submitted. 
 def updateGUI(letter):
     global blanks
     global blank
     global puzzle
     global strikes
-    if letter.lower() in puzzle.lower():
+    if letter.lower() in puzzle:
         for i in range(len(puzzle)):
-            if puzzle[i].lower() == letter.lower():
-                blanks[i] = letter
+            if puzzle[i] == letter.lower():
+                blanks[i] = letter.lower()
         blank.config(text=blanks)
         if "_" not in blanks:
             winPopup()
     else:
         strikes += 1
-        print("You have", strikes, "strikes")
         drawGallows()
 
+#A text-based version of hangman that was used before
+#the GUI was built.
 def text_based_hangman():
     global strikes
     global puzzle
     global blanks
     while strikes < 5 and "_" in blanks:
         letter = input("What letter would you like to pick?")
-        if letter == 'quit':
-            break
         if letter not in puzzle:
             strikes += 1
             print("You have", strikes)
@@ -33,13 +33,13 @@ def text_based_hangman():
             for i in range(len(puzzle)):
                 if puzzle[i] == letter:
                     blanks[i] = letter
-        print(blanks)
-
     if strikes < 5:
         print("You win")
     else:
         print("You lose")
 
+#Draws a shape based on how many strikes you have. If you have
+#six strikes, a popup shows up alerting you that you have lost.
 def drawGallows():
     global gallows
     global strikes
@@ -63,6 +63,7 @@ def drawGallows():
         gallows.create_line(50, 80, 60, 90)
         losePopup()
 
+#Pop up that shows up when you win. Click the button to move on.
 def winPopup():
     win = tkinter.Tk()
     win.wm_title("You win.")
@@ -72,6 +73,7 @@ def winPopup():
     winButton.pack()
     win.mainloop()
 
+#Pop up that shows up when you lose. Click the button to move on.
 def losePopup():
     lose = tkinter.Tk()
     lose.wm_title("You lose.")
@@ -80,7 +82,9 @@ def losePopup():
     loseLabel.pack()
     loseButton.pack()
     lose.mainloop()
-        
+
+#Pop up that shows up when you input more than one character. Click the button
+#to move on.
 def errorPopup():
     error = tkinter.Tk()
     error.wm_title("Error")
@@ -90,27 +94,30 @@ def errorPopup():
     errorButton.pack()
     error.mainloop()
 
+#Submits the string that was in the entry field. If it is longer than one
+#letter long, it is rejected and an error popup shows up.
 def submit():
     global guess   
     letter = str(guess.get())
     if len(letter) > 1:
-        print("Sorry, just one character please")
         errorPopup()
         return
     updateGUI(letter)
-    print(letter)
 
+#Submits the string that was in the puzzle_input and adds each letter to
+#the puzzle string that is used for the hangman puzzle.
 def inputHangman():
     global puzzle
     global hangman
     global Prompt
     puzzle_input = str(hangman.get())
     for i in puzzle_input:
-        puzzle += i
+        puzzle += i.lower()
     Prompt.destroy()
 
 puzzle = ""
-
+#The prompt before the actual puzzle. Type out your hangman puzzle
+#and press the button to submit it.
 Prompt = tkinter.Tk()
 label = tkinter.Label(text="Please type out your hangman Puzzle.")
 hangman = tkinter.Entry()
@@ -127,9 +134,9 @@ for i in puzzle:
         blanks.append("")
     else:
         blanks.append("_")
-print(blanks)
-print(puzzle)
 
+#Builds the GUI that lets you see the puzzle, the gallows, allows
+#you to type out a letter, and a button to submit that letter.
 Game = tkinter.Tk()
 blank = tkinter.Label(text=blanks)
 prompt = tkinter.Label(text="What letter would you like to pick?")
